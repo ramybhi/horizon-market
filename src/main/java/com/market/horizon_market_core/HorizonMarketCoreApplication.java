@@ -1,4 +1,4 @@
-package com.example.horizon_market_core;
+package com.market.horizon_market_core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
