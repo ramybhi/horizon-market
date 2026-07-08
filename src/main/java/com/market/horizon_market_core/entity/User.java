@@ -1,79 +1,44 @@
 package com.market.horizon_market_core.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import java.util.*;
+
+import org.springframework.data.annotation.CreatedBy;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="users", indexes = {@Index(name = "idex_user_email", columnList = "email")})
+@Table(name = "users", indexes = { @Index(name = "idex_user_email", columnList = "email") })
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString(exclude = "products")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable=false, unique=true)
+
+    @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable=false)
+
+    @Column(nullable = false)
     private String password;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Role role;
-    @Column(name="created_at", updatable=false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Product> productList;
+    private List<Product> products = new ArrayList<>();;
 
-    public User(long id, String email, String password, Role role, List<Product> productList) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.productList = productList;
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public List<Product> getProduct() {
-        return productList;
-    }
-
-    public void setProduct(List<Product> productList) {
-        this.productList = productList;
-    }
-    
 }
