@@ -3,9 +3,6 @@ package com.market.horizon_market_core.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.*;
-
-import org.springframework.data.annotation.CreatedBy;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,7 +31,12 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Product> products = new ArrayList<>();;
+    private List<Product> products = new ArrayList<>();
+
+    public void addProduct(Product product){
+        this.products.add(product);
+        product.setUser(this);
+    }
 
     @PrePersist
     protected void onCreate() {

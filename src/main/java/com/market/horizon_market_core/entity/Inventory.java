@@ -26,7 +26,7 @@ public class Inventory {
     private LocalDateTime createdAt;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="product_id", nullable=false, updatable=false)
+    @JoinColumn(name="product_id", nullable=false, unique=true)
     private Product product;
 
     @PrePersist
