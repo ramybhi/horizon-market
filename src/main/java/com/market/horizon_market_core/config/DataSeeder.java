@@ -40,11 +40,10 @@ public class DataSeeder implements CommandLineRunner{
             product.setName("Horizon Developer Laptop");
             product.setDescription("Laptop with I7 processor");
             product.setSku("HRZ-LP-001");
-            product.setPrice(new BigDecimal(85000.00));
+            product.setPrice(new BigDecimal("85000.00"));
 
             user.addProduct(product);
             userRepository.saveAndFlush(user);
-            product = productRepository.saveAndFlush(product);
 
             Inventory inventory = new Inventory();
             inventory.setAvailableQuantity(50);
