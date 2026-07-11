@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.market.horizon_market_core.dto.ProductResponseDto;
+import com.market.horizon_market_core.exception.ResourceNotFoundException;
 import com.market.horizon_market_core.repository.InventoryRepository;
 import com.market.horizon_market_core.repository.ProductRepository;
 
@@ -33,7 +34,7 @@ public class ProductController {
                     productResponseDto.setAvailableQuantity(product.getInventory().getAvailableQuantity());
                     return ResponseEntity.ok(productResponseDto);
                     }
-                ).orElse(ResponseEntity.notFound().build());
+                ).orElseThrow(() -> new ResourceNotFoundException("Product not found with SKU: " +sku));
     }
     
 }
