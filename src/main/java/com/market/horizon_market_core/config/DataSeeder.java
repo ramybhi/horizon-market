@@ -43,14 +43,14 @@ public class DataSeeder implements CommandLineRunner{
             product.setPrice(new BigDecimal("85000.00"));
 
             user.addProduct(product);
-            userRepository.saveAndFlush(user);
+            userRepository.save(user);
 
             Inventory inventory = new Inventory();
             inventory.setAvailableQuantity(50);
             inventory.setReservedQuantity(50);
             inventory.setProduct(product);
 
-            inventoryRepository.saveAndFlush(inventory);
+            inventoryRepository.save(inventory);
 
             System.out.println("Saved to DB succesfully");
 

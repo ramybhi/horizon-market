@@ -2,7 +2,6 @@ package com.market.horizon_market_core.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "user")
+@ToString(exclude = {"user", "inventory"})
 public class Product {
 
     @Id
@@ -36,6 +35,9 @@ public class Product {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false)
     private User user;
+
+    @OneToOne(mappedBy="product", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    private Inventory inventory;
 
     @PrePersist
     protected void onCreate() {
