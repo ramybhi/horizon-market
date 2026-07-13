@@ -6,35 +6,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.market.horizon_market_core.dto.ProductResponseDto;
-import com.market.horizon_market_core.exception.ResourceNotFoundException;
-import com.market.horizon_market_core.repository.InventoryRepository;
-import com.market.horizon_market_core.repository.ProductRepository;
+import com.market.horizon_market_core.service.ProductService;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository, InventoryRepository inventoryRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/sku/{sku}")
     public ResponseEntity<ProductResponseDto> findBySku(@PathVariable String sku){
-
         
-        return productRepository.findBySku(sku)
-                .map(product -> {
-                    ProductResponseDto productResponseDto = new ProductResponseDto();
-                    productResponseDto.setName(product.getName());
-                    productResponseDto.setDescription(product.getDescription());
-                    productResponseDto.setPrice(product.getPrice());
-                    productResponseDto.setSku(product.getSku());
-                    productResponseDto.setAvailableQuantity(product.getInventory().getAvailableQuantity());
-                    return ResponseEntity.ok(productResponseDto);
-                    }
-                ).orElseThrow(() -> new ResourceNotFoundException("Product not found with SKU: " +sku));
+        ProductResponseDto productResponseDto = productService.getProductBySku(sku);
+        return ResponseEntity.ok(productResponseDto);
+
     }
     
 }
